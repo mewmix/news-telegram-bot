@@ -1,0 +1,85 @@
+import requests
+import json
+import time
+
+from gnews import GNews
+
+import os
+
+sclient = skynet.SkynetClient()
+
+search1 = 'Ukraine'
+
+search2 = 'Russia'
+
+google_news = GNews(language='en', country='US', period='1h', max_results=5, exclude_websites=['yahoo.com', 'cnn.com'])
+good_news = google_news.get_news(search1)
+bad_news =  google_news.get_news(search2)
+
+
+pretty_bn = json.dumps(bad_news, indent = 4)
+
+pretty_gn = json.dumps(good_news, indent = 4)
+
+gn_len = len(pretty_gn)
+
+int_gn = int(gn_len)
+
+
+i = 5
+i1 = int_gn
+
+
+bn_len = len(pretty_bn)
+
+int_bn = int(bn_len)
+
+j = int_gn
+
+print(int_gn)
+
+json_dict1 = json.loads(pretty_gn)
+json_dict2 = json.loads(pretty_bn)
+
+
+
+while True:
+
+
+  def send_msg(text):
+     token = ""
+     chat_id = ""
+     url_req = "https://api.telegram.org/bot" + token + "/sendMessage" + "?chat_id=" + chat_id + "&text=" + text
+     results = requests.get(url_req)
+     print(results.json())
+
+  send_msg(f"Here are the top 5 results for {search1}!")   
+
+  for i in json_dict1:
+
+  ## t_end = time.time() + 60 * 0.5
+  ## while time.time() < t_end:
+
+         send_msg(f"{i}")
+         time.sleep(5)    
+#       if int(i) > int(i - 5):
+#         break
+ 
+
+  send_msg(f"Here are the top 5 results for {search2}!")
+
+  for i in json_dict2:
+
+  ## t_end = time.time() + 60 * 0.5
+  ## while time.time() < t_end:
+   slp = 1 
+   send_msg(f"{i}")
+   time.sleep(5)
+
+  break
+   ##send_msg(f"Sleeping for {slp} hours")
+   ##time.sleep(60 * 60 * slp)
+send_msg(f"Sleeping for {slp} hours")
+time.sleep(60 * 60 * slp)
+##send_msg(f"And here's all the news I can find \U0001F601 --- \U0001F601 + {pretty_bn}")
+#send_msg(f"For the rest of the results here is the output run - {a}{b[6:x]}")
