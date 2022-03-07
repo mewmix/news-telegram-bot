@@ -55,6 +55,7 @@ while True:
   
  if slp > hour:
   send_msg(f"Sleeping for {slp} hours")
+  time.sleep(60 * 60 * slp)
  else:
   send_msg(f"Sleeping for {slp} hour")
   time.sleep(60 * 60 * slp)
